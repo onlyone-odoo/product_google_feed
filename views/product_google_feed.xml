@@ -1,0 +1,48 @@
+<odoo>
+    <record id="product_google_feed_tree" model="ir.ui.view">
+        <field name="name">product.google.feed.tree</field>
+        <field name="model">product.google.feed</field>
+        <field name="arch" type="xml">
+            <tree string="Google Feeds">
+                <field name="name"/>
+                <field name="website_id"/>
+                <field name="slug"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_google_feed_form" model="ir.ui.view">
+        <field name="name">product.google.feed.form</field>
+        <field name="model">product.google.feed</field>
+        <field name="arch" type="xml">
+            <form string="Google Feed">
+                <header/>
+                <sheet>
+                    <h1>
+                        <field name="name" placeholder="Feed Name"/>
+                    </h1>
+                    <group>
+                        <field name="website_id" options="{'no_create': True}"/>
+                        <field name="pricelist_id" options="{'no_create': True}"/>
+                        <field name="price_total_included"/>
+                        <field name="slug" readonly="1"/>
+                        <field name="domain"/>
+                        <field name="context"/>
+                        <field name="base_url"/>
+                        <field name="producttype_id" options="{'no_create': True}"/>
+                        <field name="limit"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_google_feed" model="ir.actions.act_window">
+        <field name="name">Google Feed</field>
+        <field name="res_model">product.google.feed</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="product_google_feed_menu" name="Google Feed" parent="website_sale.menu_catalog" action="action_product_google_feed"/>
+</odoo>
