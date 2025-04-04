@@ -12,7 +12,7 @@
     "development_status": "Production/Stable",
     "application": False,
     "installable": True,
-    "depends": ["website", "product"],
+    "depends": ["website_sale", "product"],
     "data": [
         "security/ir.model.access.csv",
         "views/product_google_feed_views.xml",
