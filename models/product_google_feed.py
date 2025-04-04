@@ -88,7 +88,9 @@ class ProductGoogleFeed(models.Model):
         item.append(description)
 
         availability = etree.Element("{%s}availability" % MY_NAMESPACES["g"])
-        availability.text = "in stock" if product_id.free_qty > 0 else "preorder"
+        # Sum free_qty from all variants
+        total_free_qty = sum(product_id.product_variant_ids.mapped("free_qty"))
+        availability.text = "in stock" if total_free_qty > 0 else "preorder"
         item.append(availability)
 
         brand = etree.Element("{%s}brand" % MY_NAMESPACES["g"])
@@ -101,7 +103,8 @@ class ProductGoogleFeed(models.Model):
         item.append(brand)
 
         link = etree.Element("link")
-        link.text = f"{self.website_id.domain}/{self.base_url}{slugify(product_id)}"
+        domain = self.website_id.domain or "http://localhost"  # Fallback domain
+        link.text = f"{domain}/{self.base_url}{slugify(product_id)}"
         item.append(link)
 
         price = etree.Element("{%s}price" % MY_NAMESPACES["g"])
@@ -116,7 +119,9 @@ class ProductGoogleFeed(models.Model):
 
         if product_id.image_1920:
             image_link = etree.Element("{%s}image_link" % MY_NAMESPACES["g"])
-            image_link.text = f"{self.website_id.domain}/web/image/product.template/{product_id.id}/image_1920/"
+            image_link.text = (
+                f"{domain}/web/image/product.template/{product_id.id}/image_1920/"
+            )
             item.append(image_link)
 
         condition = etree.Element("{%s}condition" % MY_NAMESPACES["g"])
